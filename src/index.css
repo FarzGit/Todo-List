@@ -1,0 +1,130 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+
+
+body {
+  background-color: #1A202C;
+}
+
+.container {
+  height: 450px;
+  padding: 20px;
+  margin: 20px;
+}
+
+.todolist {
+  background-clip: text;
+  color: transparent;
+  background-image: linear-gradient(90deg, rgba(254, 93, 0, 1) 11%, rgba(233, 187, 0, 1) 100%);
+  font-size: xx-large;
+  font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
+  font-weight: 900;
+}
+
+.task {
+  padding-top: 30px;
+  border-radius: 8px;
+  height: 65;
+  width: 1240px;
+  color: white;
+}
+
+.input {
+  height: 45px;
+  width: 225px;
+  border-radius: 10px;
+  padding: 10px;
+  background-color: #222834;
+}
+
+.addButton {
+  height: 45px;
+  width: 95px;
+  border-radius: 10px;
+  padding: 10px;
+  background-color: #A9DCFB;
+  margin-left: 10px;
+}
+
+.list {
+  border: 1px solid white;
+  margin: 20px;
+  padding: 10px;
+  border-radius: 10px;
+  height: 70px;
+  width: 850px;
+  margin-left: 206px;
+}
+
+.listContent {
+  color: white;
+}
+
+.hr {
+  width: 100%;
+  background-color: white;
+  margin-top: 10px;
+  margin-bottom: 10px; 
+}
+
+.editInput{
+  height: 40px;
+  width: 200px;
+  border-radius: 10px;
+  color: rgb(255, 255, 255);
+  padding: 10px;
+  background-color: #222834;
+
+}
+
+.editSaveButton{
+
+  color: white;
+  font-weight: 500;
+  background-color: #A9DCFB;
+  margin-right: 10px;
+  height: 30px;
+  width: 60px;
+  border-radius: 10px;
+  transition: transform 0.3s ease-in-out;
+}
+
+.editSaveButton:hover{
+  transform: scale(1.1);
+}
+
+.editDeleteButton{
+
+  color: white;
+  font-weight: 500;
+  background-color: #ff0000;
+  margin-right: 10px;
+  height: 30px;
+  width: 60px;
+  border-radius: 10px;
+  transition: transform 0.3s ease-in-out;
+}
+
+.editDeleteButton:hover{
+  transform: scale(1.1);
+}
+
+
+
+.editButton{
+
+  color: white;
+  font-weight: 500;
+  background-color: #ff0000;
+  margin-right: 10px;
+  height: 30px;
+  width: 70px;
+  border-radius: 10px;
+  transition: transform 0.3s ease-in-out;
+}
+
+.editButton:hover{
+  transform: scale(1.1);
+}
