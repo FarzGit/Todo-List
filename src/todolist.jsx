@@ -3,82 +3,126 @@
 
 
 
-import { useState , useEffect } from "react";
+import { useState, useEffect } from "react";
 
 function toDoList() {
 
-    const [tasks, setTask] = useState(JSON.parse(localStorage.getItem("tasks")) || []);
-    const [newTask, setnewTask] = useState('')
-    const [editTask,setEditTask] = useState({index: null,text:''})
-
-   
-
-    useEffect(()=>{
-      localStorage.setItem('tasks', JSON.stringify(tasks))
-    },[tasks])
+  const [tasks, setTask] = useState(JSON.parse(localStorage.getItem("tasks")) || []);
+  const [newTask, setnewTask] = useState('')
+  const [editTask, setEditTask] = useState({ index: null, text: '' })
+  const [currentDay, setCurrentDay] = useState("");
 
 
-    function handleInputChange(event) {
+  useEffect(() => {
+    const daysOfWeek = [
+      "Sunday",
+      "Monday",
+      "Tuesday",
+      "Wednesday",
+      "Thursday",
+      "Friday",
+      "Saturday",
+    ];
+    const currentDate = new Date();
+    const dayOfWeek = daysOfWeek[currentDate.getDay()];
+    setCurrentDay(dayOfWeek);
+  }, []);
 
-        setnewTask(event.target.value)
 
-    }
-    
-
-
+  useEffect(() => {
+    localStorage.setItem('tasks', JSON.stringify(tasks))
+  }, [tasks])
 
 
-    function addTask() {
+  function handleInputChange(event) {
 
-        if (newTask.trim() != "") {
-            setTask((t) => [...t, newTask])
-            setnewTask('')
-        }
-    }
-    function removeTask(index) {
+    setnewTask(event.target.value)
 
-        
-        window.confirm('You want to delete this task')
-        const deleteTask = tasks.filter((_, i) => i !== index)
-        setTask(deleteTask)
+  }
 
-    }
+  function addTask() {
 
-    function startEdit(index,text){
-        setEditTask({index,text})
-    }
+    if (newTask.trim() != "") {
 
-    function cancelEdit() {
-        setEditTask({ index: null, text: '' });
-      }
-    
-      function saveEdit() {
-        if (editTask.text.trim() !== '') {
-          const updatedTasks = tasks.map((task, i) =>
-            i === editTask.index ? editTask.text : task
-          );
-          setTask(updatedTasks);
-          cancelEdit();
-        }
+      if (!tasks.includes(newTask)) {
+
+        setTask((t) => [...t, newTask])
+        setnewTask('')
+
+      } else {
+        alert("Task already exists!")
       }
 
+    }
+  }
+  function removeTask(index) {
 
-    return (
+    const confirmDelete = window.confirm("Are you sure want to delete this tasks")
 
-        <div className="container">
-
-            <div className="flex justify-center items-center ">
-                <h1 className="todolist">Todo List</h1>
-            </div>
-
-            <div className="task flex justify-center items-center">
-                <input className="input" type="text" placeholder="Enter your task" value={newTask} onChange={handleInputChange}></input>
-                <button className="addButton" onClick={addTask}>Add</button>
-            </div>
+    if (confirmDelete) {
+      const deleteTask = tasks.filter((_, i) => i !== index)
+      setTask(deleteTask)
+    }
 
 
-            <ol>
-        {tasks.map((task, index) => (
+  }
+
+  function startEdit(index, text) {
+    setEditTask({ index, text })
+  }
+
+  function cancelEdit() {
+    setEditTask({ index: null, text: '' });
+  }
+
+  function saveEdit() {
+
+    if (editTask.text.trim() !== '') {
+      if (!tasks.slice(0, editTask.index).concat(tasks.slice(editTask.index + 1)).includes(editTask.text)) {
+
+        const updatedTasks = tasks.map((task, i) =>
+          i === editTask.index ? editTask.text : task
+        );
+        setTask(updatedTasks);
+        cancelEdit();
+
+      } else {
+        alert("Task already exits!")
+
+      }
+    }
+
+  }
+
+  function handleKeyDown(event) {
+    if (event.key === 'Enter') {
+      addTask();
+    }
+  }
+
+  return (
+
+    <div className="container">
+
+      <div className="flex justify-center items-center ">
+        <h1 className="todolist">Todo List</h1>
+
+
+
+      </div>
+      <div className="days flex justify-center ">
+        <h3>{`Welcome , it's ${currentDay} ☕😊`}</h3>
+
+      </div>
+
+      <div className="task flex justify-center items-center">
+        <input className="input" type="text" placeholder="Enter your task" value={newTask} onChange={handleInputChange} onKeyDown={handleKeyDown}></input>
+        <button className="addButton" onClick={addTask}>Add</button>
+      </div>
+
+
+      <ol>
+        {tasks.map((tasks, index) => (
           <li key={index}>
             <div className="list flex justify-center justify-between items-center">
               <div className="listContent">
@@ -92,20 +136,26 @@ function toDoList() {
                     className="editInput"
                   />
                 ) : (
-                  <p className="pl-3">{task}</p>
+                  <>
+                    <div className="flex">
+
+                      <p className="pl-3">{tasks}</p>
+                    </div>
+
+                  </>
                 )}
               </div>
 
               <div className="flex">
                 {editTask.index !== index ? (
                   <>
-                   <button className=" editSaveButton pl-2" onClick={() => startEdit(index, task)}>
+                    <button className=" editSaveButton pl-2" onClick={() => startEdit(index, tasks)}>
                       Edit
                     </button>
                     <button className="editDeleteButton" onClick={() => removeTask(index)}>
                       Delete
                     </button>
-                   
+
                   </>
                 ) : (
                   <>
@@ -119,10 +169,10 @@ function toDoList() {
         ))}
       </ol>
 
-        </div>
+    </div>
 
 
-    )
+  )
 
 }
 
